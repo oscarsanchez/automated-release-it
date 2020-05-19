@@ -97,6 +97,7 @@ workflows:
               only: 
                 - develop
                 - /release-.*/
+                - /hotfix-.*/
       - lint:
           requires:
             - install
