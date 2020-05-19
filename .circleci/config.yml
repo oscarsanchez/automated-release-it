@@ -94,7 +94,9 @@ workflows:
       - install:
           filters:
             branches:
-              only: develop
+              only: 
+                - develop
+                - /release-.*/
       - lint:
           requires:
             - install
