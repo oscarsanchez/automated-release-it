@@ -52,10 +52,9 @@ jobs:
       - run:
           name: Release It!
           command: |
-            CURRENT_VERSION=$(node -p "require('./package.json').version")
+            CURRENT_VERSION=$(node -p "require('./package.json').version" | cut -d"-" -f1)
             LAST_COMMIT=$(git log -n 1 --pretty=format:"%h")
-            git branch -r --contains $PREVIOUS_COMMIT | grep -q -E '(release|hotfix)-' && SKIP=true
-            INCREMENT="${CURRENT_VERSION}-${LAST_COMMIT}"
+            INCREMENT="${CURRENT_VERSION}-${LAST_COMMIT} --no-git.tag"
             [[ $CIRCLE_BRANCH = release-*  && -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- minor"
             [[ $CIRCLE_BRANCH = release-*  && ! -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- patch"
             [[ $CIRCLE_BRANCH = hotfix-* ]] && INCREMENT="-- patch"
