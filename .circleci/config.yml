@@ -1,0 +1,109 @@
+defaults: &common-config
+  working_directory: ~/zing-mono
+  docker:
+    - image: circleci/node:10
+
+restore_cache_config: &restore-cache-config
+  name: Restore Yarn package cache
+  keys:
+    - yarn-packages-{{ checksum "yarn.lock" }}
+
+install_deps: &install-deps
+  name: Install dependencies
+  command: echo "yarn install --frozen-lockfile"
+
+save_cache_config: &save-cache-config
+  name: Save Yarn package cache
+  key: yarn-packages-{{ checksum "yarn.lock" }}
+  paths:
+    - node_modules
+
+version: 2
+jobs:
+  install:
+    <<: *common-config
+    steps:
+      - checkout
+      - restore_cache: *restore-cache-config
+      - run: *install-deps
+      - save_cache: *save-cache-config
+      - persist_to_workspace:
+          root: ~/zing-mono
+          paths:
+            - .
+  lint:
+    <<: *common-config
+    steps:
+      - attach_workspace:
+          at: ~/zing-mono
+      - run:
+          name: Lint JS files
+          command: echo "yarn lint:js"
+  release-it:
+    <<: *common-config
+    steps:
+      - attach_workspace:
+          at: ~/zing-mono
+      - run:
+          name: Setup github
+          command: |
+            mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+            git config --global user.name "release-it-bot"
+      - run:
+          name: Release It!
+          command: |
+            PREVIOUS_COMMIT=$(git log -n 1 --skip 1 --pretty=format:"%h")
+            git branch -r --contains $PREVIOUS_COMMIT | grep -q -E '(release|hotfix)-' && SKIP=true
+            INCREMENT="-- patch"
+            [[ $CIRCLE_BRANCH = develop && ! -z "$SKIP" ]] && INCREMENT="--no-git --no-increment"
+            [[ $CIRCLE_BRANCH = release-*  && -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- minor"
+            [[ $CIRCLE_BRANCH = release-*  && ! -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- patch"
+            [[ $CIRCLE_BRANCH = hotfix-* ]] && INCREMENT="-- patch"
+            yarn release $INCREMENT --ci
+  build:
+    <<: *common-config
+    steps:
+      - attach_workspace:
+          at: ~/zing-mono
+      - run:
+          name: Build
+          command: echo "yarn build"
+      - persist_to_workspace:
+          root: ~/zing-mono
+          paths:
+            - .
+  deploy-test:
+    <<: *common-config
+    steps:
+      - attach_workspace:
+          at: ~/zing-mono
+      - run:
+          name: Install Gcloud
+          command: echo "download and install GCloud"
+      - run: echo "run GCloud"
+      - run:
+          environment:
+            BASE_API_URL: https://api.test.zing.studio
+          name: Deploy to test
+          command: echo "yarn deploy:test"
+
+workflows:
+  version: 2
+  build_deploy_test:
+    jobs:
+      - install:
+          filters:
+            branches:
+              only: develop
+      - lint:
+          requires:
+            - install
+      - release-it:
+          requires:
+            - lint
+      - build:
+          requires:
+            - release-it
+      - deploy-test:
+          requires:
+            - build

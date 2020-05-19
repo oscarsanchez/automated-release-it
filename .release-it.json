@@ -1,0 +1,19 @@
+{
+  "git": {
+    "tagName": "v${version}",
+    "requireCommits": true,
+    "requireCleanWorkingDir": false,
+    "requireUpstream": false,
+    "commitMessage": "Release ${version} [ci skip]"
+  },
+  "plugins": {
+    "release-it-yarn-workspaces": {
+      "workspaces": [
+        "packages/*"
+      ],
+      "skipChecks": true,
+      "publish": false
+    }
+  },
+  "npm": false
+}
