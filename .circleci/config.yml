@@ -54,7 +54,7 @@ jobs:
           command: |
             PREVIOUS_COMMIT=$(git log -n 1 --skip 1 --pretty=format:"%h")
             git branch -r --contains $PREVIOUS_COMMIT | grep -q -E '(release|hotfix)-' && SKIP=true
-            INCREMENT="-- patch"
+            INCREMENT="-- patch --no-git.tag"
             [[ $CIRCLE_BRANCH = develop && ! -z "$SKIP" ]] && INCREMENT="--no-git --no-increment"
             [[ $CIRCLE_BRANCH = release-*  && -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- minor"
             [[ $CIRCLE_BRANCH = release-*  && ! -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- patch"
