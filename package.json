@@ -7,7 +7,13 @@
   "devDependencies": {
     "lerna": "^3.20.2",
     "release-it": "^13.6.1",
-    "release-it-yarn-workspaces": "^1.4.0"
+    "release-it-yarn-workspaces": "^1.4.0"  
   },
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "dev": "lerna run dev --parallel",
+    "build": "lerna run build --parallel",
+    "release": "release-it"
+  }
 }
