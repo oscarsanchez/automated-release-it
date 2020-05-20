@@ -54,7 +54,7 @@ jobs:
           command: |
             INCREMENT="-- patch"
             [[ $CIRCLE_BRANCH = release-*  && -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- minor"
-            [[ $CIRCLE_BRANCH != develop ]] && yarn release $INCREMENT --ci
+            [[ $CIRCLE_BRANCH =~ develop ]] && yarn release $INCREMENT --ci
   build:
     <<: *common-config
     steps:
