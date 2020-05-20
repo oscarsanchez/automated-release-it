@@ -99,10 +99,6 @@ workflows:
       - release-it:
           requires:
             - lint
-          filters:
-            branches:
-              ignore:
-                - develop
       - build:
           requires:
             - release-it
