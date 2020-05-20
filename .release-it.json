@@ -4,8 +4,7 @@
     "requireCommits": true,
     "requireCleanWorkingDir": false,
     "requireUpstream": false,
-    "commitMessage": "Release v${version} [ci skip]",
-    "requireBranch": ["release-*","hotfix-*"]
+    "commitMessage": "Release v${version} [ci skip]"
   },
   "plugins": {
     "release-it-yarn-workspaces": {
