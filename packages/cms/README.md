@@ -6,6 +6,7 @@
 
 ```
 const cms = require('cms');
+pero que cosa
 
 // TODO: DEMONSTRATE API
 ```
