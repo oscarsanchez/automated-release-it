@@ -99,13 +99,13 @@ workflows:
       - release-it:
           requires:
             - lint
-      - build:
-          requires:
-            - release-it
           filters:
             branches:
               ignore:
                 - develop
+      - build:
+          requires:
+            - release-it
       - deploy-test:
           requires:
             - build
