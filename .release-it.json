@@ -12,7 +12,8 @@
         "packages/*"
       ],
       "skipChecks": true,
-      "publish": false
+      "publish": false,
+      "ignore-version": true
     }
   },
   "npm": false
