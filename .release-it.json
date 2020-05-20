@@ -12,12 +12,10 @@
         "packages/*"
       ],
       "skipChecks": true,
-      "publish": false,
-      "ignoreVersion": true
+      "publish": false
     }
   },
   "npm": {
-    "ignoreVersion": true,
     "publish": false
   }
 }
