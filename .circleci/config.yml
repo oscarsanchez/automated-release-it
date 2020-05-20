@@ -103,8 +103,9 @@ workflows:
           requires:
             - release-it
           filters:
-            ignore:
-              - develop
+            branches:
+              ignore:
+                - develop
       - deploy-test:
           requires:
             - build
