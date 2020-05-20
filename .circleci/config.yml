@@ -56,7 +56,8 @@ jobs:
             LAST_COMMIT=$(git log -n 1 --pretty=format:"%h")
             INCREMENT="${CURRENT_VERSION}-${LAST_COMMIT} --no-git.tag"
             echo "CURRENT VERSION ${CURRENT_VERSION}"
-            echo "CURRENT VERSION ${LAST_COMMIT}"
+            echo "LAST COMMIT ${LAST_COMMIT}"
+            echo "INCREMENT ${INCREMENT}"
             git tag -ll
             [[ $CIRCLE_BRANCH = release-*  && -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- minor"
             [[ $CIRCLE_BRANCH = release-*  && ! -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- patch"
