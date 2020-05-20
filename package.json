@@ -9,7 +9,7 @@
     "release-it": "^13.6.1",
     "release-it-yarn-workspaces": "^1.4.0"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "dev": "lerna run dev --parallel",
