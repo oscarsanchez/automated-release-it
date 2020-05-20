@@ -7,5 +7,6 @@
 ```
 const api = require('api');
 api
+hola
 // TODO: DEMONSTRATE API
 ```
