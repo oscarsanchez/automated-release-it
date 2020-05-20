@@ -52,6 +52,7 @@ jobs:
       - run:
           name: Release It!
           command: |
+            git describe
             INCREMENT="-- patch"
             [[ $CIRCLE_BRANCH = release-*  && -z "$CIRCLE_COMPARE_URL" ]] && INCREMENT="-- minor"
             [[ $CIRCLE_BRANCH = develop ]] && echo "Skip" || yarn release $INCREMENT --ci
