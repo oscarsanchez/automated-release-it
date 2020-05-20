@@ -13,8 +13,11 @@
       ],
       "skipChecks": true,
       "publish": false,
-      "ignore-version": true
+      "ignoreVersion": true
     }
   },
-  "npm": false
+  "npm": {
+    "ignoreVersion": true,
+    "publish": false
+  }
 }
